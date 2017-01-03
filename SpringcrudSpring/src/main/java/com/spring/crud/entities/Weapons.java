@@ -19,9 +19,9 @@ public class Weapons {
     @ManyToOne
     private User user;
 
-    public Weapons(String descrption, User user) {
+    public Weapons(String descrption) {
         this.description = descrption;
-        this.user = user;
+
     }
 
     public Weapons() {

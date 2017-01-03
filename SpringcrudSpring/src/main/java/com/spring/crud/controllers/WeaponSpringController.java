@@ -37,25 +37,19 @@ public class WeaponSpringController {
 
     @RequestMapping(path = "/", method = RequestMethod.GET)
     public String home(Model model, HttpSession session){
-        String userName = (String)session.getAttribute(USERNAME);
-        List<Weapons> weaponses = createWeaponRepository.findAll();
-
-        if(userName != null){
-            User user = userRepository.findFirstByName(userName);
-            model.addAttribute("user", session.getAttribute(USERNAME));
-
-        }
-        model.addAttribute("AddWeapon", weaponses);
+        List<Weapons> weapons = createWeaponRepository.findAll();
+        User user = userRepository.findFirstByName(USERNAME);//I don't know why changing this worked, ask jeff
+        model.addAttribute("user", session.getAttribute(USERNAME));
+        model.addAttribute("weapon", weapons);
         return "home";
     }
 
     @RequestMapping(path = "/create-weapon", method = RequestMethod.POST)
-    public String createWeapons(HttpSession session, String description){
-        String userName = (String) session.getAttribute(USERNAME);
-        if(userName != null){
-            User user = userRepository.findFirstByName(userName);
-            Weapons weapons = new Weapons(description, user);
-            createWeaponRepository.save(weapons);
+    public String createWeapon(HttpSession session, String description){
+        User user = userRepository.findFirstByName(USERNAME);
+        if(user != null){
+            Weapons weapon = new Weapons(description);
+            createWeaponRepository.save(weapon);
         }
 
         return "redirect:/";

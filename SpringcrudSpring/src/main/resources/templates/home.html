@@ -7,8 +7,8 @@
 <body>
 {{^user}}
 <form action="/login" method="post">
-    <input type="text" placeholder="UserName" value="user" required/>
-    <input type="text" placeholder="Password" value="password" required/>
+    <input type="text" placeholder="UserName" name="name" required/>
+    <input type="text" placeholder="Password" name="password" required/>
     <button type="submit">Login</button>
 </form>
 {{/user}}
@@ -17,18 +17,18 @@
 {{#user}}
 welcome {{user}}<br>
         <form action="/logout" method="post">
-            <input type="hidden" name="username" value="user">
+            <input type="hidden" name="username" value="name">
             <button type="submit">Logout</button>
         </form>
 
-<form action="/create-weapons" method="post">
-    <input type="text" placeholder="Description" name="AddWeapon" size="100"/>
+<form action="/create-weapon" method="post">
+    <input type="text" placeholder="Description" name="description" size="100"/>
     <button type="submit">Add Weapon</button>
 </form>
 
 <ul>
     {{#weapons}}
-    <li>{{description}} <br/></li>
+    <li>{{weapon}} <br/></li>
     {{/weapons}}
 </ul>
 {{/user}}
