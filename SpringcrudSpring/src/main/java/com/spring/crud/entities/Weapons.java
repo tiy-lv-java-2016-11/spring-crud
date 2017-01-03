@@ -12,15 +12,15 @@ public class Weapons {
     @GeneratedValue
     private int id;
 
-    @Column (nullable = false)
+    @Column(nullable = false)
     private String description;
 
 
     @ManyToOne
     private User user;
 
-    public Weapons(String descrption) {
-        this.description = descrption;
+    public Weapons(String description) {
+        this.description = description;
 
     }
 
@@ -39,8 +39,8 @@ public class Weapons {
         return description;
     }
 
-    public void setDescription(String descrption) {
-        this.description = descrption;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public User getUser() {

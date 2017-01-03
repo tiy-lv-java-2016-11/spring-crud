@@ -11,7 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
@@ -27,16 +26,10 @@ public class WeaponSpringController {
     @Autowired
     UserRepository userRepository;
 
-    @PostConstruct
-    public void init(){
-        if(userRepository.count() == 0){
-            User user = new User("this", "guy");
-            userRepository.save(user);
-        }
-    }
+
 
     @RequestMapping(path = "/", method = RequestMethod.GET)
-    public String home(Model model, HttpSession session){
+    public String home(Model model, HttpSession session, String description){
         List<Weapons> weapons = createWeaponRepository.findAll();
         User user = userRepository.findFirstByName(USERNAME);//I don't know why changing this worked, ask jeff
         model.addAttribute("user", session.getAttribute(USERNAME));
@@ -45,10 +38,10 @@ public class WeaponSpringController {
     }
 
     @RequestMapping(path = "/create-weapon", method = RequestMethod.POST)
-    public String createWeapon(HttpSession session, String description){
-        User user = userRepository.findFirstByName(USERNAME);
+    public String createWeapon(HttpSession session){
+        User user = (User) session.getAttribute(USERNAME);
         if(user != null){
-            Weapons weapon = new Weapons(description);
+            Weapons weapon = new Weapons();
             createWeaponRepository.save(weapon);
         }
 

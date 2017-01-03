@@ -15,21 +15,21 @@
 
 
 {{#user}}
-welcome {{user}}<br>
+welcome {{name}}<br>
         <form action="/logout" method="post">
-            <input type="hidden" name="username" value="name">
+            <input type="hidden" name="name" value="name">
             <button type="submit">Logout</button>
         </form>
 
 <form action="/create-weapon" method="post">
-    <input type="text" placeholder="Description" name="description" size="100"/>
+    <input type="text" placeholder="Weapon Description" name="weapon" size="100"/>
     <button type="submit">Add Weapon</button>
 </form>
 
 <ul>
-    {{#weapons}}
-    <li>{{weapon}} <br/></li>
-    {{/weapons}}
+    {{#weapon}}
+    <li>{{description}}</li>
+    {{/weapon}}
 </ul>
 {{/user}}
 </body>
