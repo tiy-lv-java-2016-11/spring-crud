@@ -6,7 +6,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 
-public class PsswordStorage {
+public class PasswordStorage {
 
     @SuppressWarnings("serial")
         static public class InvalidHashException extends Exception {

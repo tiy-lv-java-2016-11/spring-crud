@@ -9,5 +9,5 @@ import java.util.List;
  * Created by darionmoore on 12/30/16.
  */
 public interface CreateWeaponRepository extends JpaRepository<Weapons, Integer>{
-        List<Weapons> findAllByOrderByDateTimeDesc();
+        List<Weapons> findAll();
 }

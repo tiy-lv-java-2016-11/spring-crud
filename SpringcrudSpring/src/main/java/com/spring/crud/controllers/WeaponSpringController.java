@@ -1,18 +1,18 @@
 package com.spring.crud.controllers;
 
-import com.spring.crud.utilities.PsswordStorage;
+import com.spring.crud.entities.User;
+import com.spring.crud.entities.Weapons;
 import com.spring.crud.repositories.CreateWeaponRepository;
 import com.spring.crud.repositories.UserRepository;
-import com.spring.crud.entities.Weapons;
-import com.spring.crud.entities.User;
+import com.spring.crud.utilities.PasswordStorage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
-import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -27,17 +27,25 @@ public class WeaponSpringController {
     @Autowired
     UserRepository userRepository;
 
+    @PostConstruct
+    public void init(){
+        if(userRepository.count() == 0){
+            User user = new User("this", "guy");
+            userRepository.save(user);
+        }
+    }
+
     @RequestMapping(path = "/", method = RequestMethod.GET)
     public String home(Model model, HttpSession session){
         String userName = (String)session.getAttribute(USERNAME);
-        List<Weapons> weapons = createWeaponRepository.findAllByOrderByDateTimeDesc();
+        List<Weapons> weaponses = createWeaponRepository.findAll();
 
         if(userName != null){
             User user = userRepository.findFirstByName(userName);
-            model.addAttribute("user", user);
-            model.addAttribute("now", LocalDateTime.now());
+            model.addAttribute("user", session.getAttribute(USERNAME));
+
         }
-        model.addAttribute("weapons", weapons);
+        model.addAttribute("AddWeapon", weaponses);
         return "home";
     }
 
@@ -54,13 +62,15 @@ public class WeaponSpringController {
     }
 
     @RequestMapping(path = "/login", method = RequestMethod.POST)
-    public String login(HttpSession session, String userName, String password ) throws Exception{
-        User user = userRepository.findFirstByName(userName);
+    public String login(HttpSession session, String name, String password ) throws Exception{
+        User user = userRepository.findFirstByName(name);
         if(user == null){
-            user = new User(userName, PsswordStorage.createHash(password));
+            user = new User(name, PasswordStorage.createHash(password));
             userRepository.save(user);
+        } else if (!PasswordStorage.verifyPassword(password, user.getPassword())){
+            throw new Exception("Your name or password is incorrect");
         }
-        session.setAttribute(USERNAME, userName);
+        session.setAttribute(USERNAME, user);
         return "redirect:/";
     }
 
