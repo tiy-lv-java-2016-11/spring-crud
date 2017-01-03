@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+</head>
+<body>
+{{^user}}
+<form action="/login" method="post">
+    <input type="text" placeholder="UserName" name="name" required/>
+    <input type="text" placeholder="Password" name="password" required/>
+    <button type="submit">Login</button>
+</form>
+{{/user}}
+
+
+{{#user}}
+welcome {{name}}<br>
+        <form action="/logout" method="post">
+            <input type="hidden" name="name" value="name">
+            <button type="submit">Logout</button>
+        </form>
+
+<form action="/create-weapon" method="post">
+    <input type="text" placeholder="Weapon Description" name="weapon" size="100"/>
+    <button type="submit">Add Weapon</button>
+</form>
+
+<ul>
+    {{#weapon}}
+    <li>{{description}}</li>
+    {{/weapon}}
+</ul>
+{{/user}}
+</body>
+</html>
