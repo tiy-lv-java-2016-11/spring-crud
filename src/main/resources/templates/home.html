@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Goodreads | Home</title>
+    <link rel="stylesheet" href="../css/reset.css"/>
+    <link rel="stylesheet" href="../css/style.css"/>
+</head>
+<body>
+
+<header class="">
+    <div id="login">
+        <form action="/login" method="post">
+            <p><input type="text" placeholder="Username" name="username" required />
+            <input type="password" placeholder="Password" name="password" required /></p>
+            <p><button type="submit" name="type" value="login">Login</button>
+            <button type="submit" name="type" value="register">Register</button></p>
+        </form>
+        {{#message}}<p id="redAtt">{{.}}</p>{{/message}}
+    </div>
+</header>
+<main class="center">
+<section id="allBooks">
+<div class="controls">
+    <h1 class="headline">All books in others bookshelves</h1>
+    <form class="controls">
+        <label>Filter by:</label>
+        <select name="filterStatus">
+            <option default disabled>Status</option>
+            <option value="want">Want To Read</option>
+            <option value="current">Currently Reading</option>
+            <option value="read">Read</option>
+        </select>
+        <label for="sort">Sort By:</label>
+        <select id="sort" name="sortBy">
+            <option value="title">Title</option>
+            <option value="author">Author</option>
+            <option value="year">Year</option>
+        </select>
+    </form>
+</div>
+    <ul class="bookshelf">
+        {{#allBooks}}
+        <li class="book">
+            <div class="cover">
+                <img src="{{#coverUrl}}{{.}}{{/coverUrl}}">
+            </div>
+            <div class="info">
+                <h2 class="title">{{title}}</h2>
+                <h3 class="author">{{author}}<span>{{year}}</span></h3>
+                <p class="description">{{#description}}{{.}}{{/description}}</p>
+                <p class="userInfo">In <span class="status">{{status}}</span> list by <span class="user"><a href="#">{{user.username}}</a></span></p>
+            </div>
+        </li>
+        {{/allBooks}}
+    </ul>
+</section>
+</main>
+</body>
+</html>

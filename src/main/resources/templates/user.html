@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Detail</title>
+    <link rel="stylesheet" href="../css/reset.css"/>
+    <link rel="stylesheet" href="../css/style.css"/>
+</head>
+<body>
+
+<header>
+    <div id="login">
+	    <div id="welcome">
+	        <h4>Welcome <span>{{currentUser.username}}</span></h4>
+	        <form action="/logout" method="post">
+	            <button type="submit">Logout</button>
+	        </form>
+	    </div>
+		{{#message}}<p id="redAtt">{{.}}</p>{{/message}}
+    </div>
+</header>
+<main class="twoColumn">
+	<section class="leftCol" id="allBooks">
+		<div class="controls">
+		    <h1 class="headline">Books on other's bookshelves</h1>
+            <form class="controls" action="/filter" method="get">
+                <label>Filter by:</label>
+                <input type="hidden" name="listType" value="allBooks"/>
+                <select name="filterStatus">
+                    <option default disabled>Status</option>
+                    <option value="Want To Read">Want To Read</option>
+                    <option value="Currently Reading">Currently Reading</option>
+                    <option value="Read">Read</option>
+                </select>
+                <button type="submit">Filter</button>
+            </form>
+            <form action="/sort" method="get">
+                <label>Sort By:</label>
+                <input type="hidden" name="listType" value="allBooks"/>
+                <select name="sortBy">
+                    <option value="title">Title</option>
+                    <option value="author">Author</option>
+                    <option value="year">Year</option>
+                </select>
+                <button type="submit">Sort</button>
+            </form>
+		</div>
+	    <ul class="bookshelf">
+			{{#allBooks}}
+			<li class="book">
+				<div class="cover">
+					<img src="{{#coverUrl}}{{.}}{{/coverUrl}}">
+				</div>
+				<div class="info">
+					<h2 class="title">{{title}}</h2>
+					<h3 class="author">{{author}}<span>{{year}}</span></h3>
+					<p class="description">{{#description}}{{.}}{{/description}}</p>
+					<p class="userInfo">In <span class="status">{{status}}</span> list by <span class="user"><a href="#">{{user.username}}</a></span></p>
+				</div>
+			</li>
+			{{/allBooks}}
+	    </ul>
+	</section>
+	<section class="rightCol" id="userBooks">
+		<div class="controls">
+		    <h1 class="headline">Books on your bookshelf</h1>
+		    <form class="controls" action="/filter" method="get">
+		        <label>Filter by:</label>
+                <input type="hidden" name="listType" value="usersBooks"/>
+		        <select name="filterStatus">
+		            <option default disabled>Status</option>
+		            <option value="Want To Read">Want To Read</option>
+		            <option value="Currently Reading">Currently Reading</option>
+		            <option value="Read">Read</option>
+		        </select>
+                <button type="submit">Filter</button>
+            </form>
+            <form action="/sort" method="get">
+		        <label>Sort By:</label>
+                <input type="hidden" name="listType" value="usersBooks"/>
+		        <select name="sortBy">
+		            <option value="title">Title</option>
+		            <option value="author">Author</option>
+		            <option value="year">Year</option>
+		        </select>
+		        <button type="submit">Sort</button>
+		    </form>
+		    <p><a href="/add-book">Search</a> books to add to your bookshelf</p>
+		</div>
+	    <ul class="bookshelf">
+			{{#usersBooks}}
+	        <li class="book">
+				<div class="cover">
+					<img src="{{#coverUrl}}{{.}}{{/coverUrl}}">
+				</div>
+	            <div class="info">
+					<h4>{{status}}</h4>
+					<h2 class="title">{{title}}</h2>
+					<h3 class="author">{{author}}<span>{{year}}</span></h3>
+					<p class="description">{{#description}}{{.}}{{/description}}</p>
+					<div class="buttons">
+			            <form action="/update-book?id={{id}}" method="post">
+					        <select name="status">
+					            <option value="Want To Read">Want To Read</option>
+					            <option value="Currently Reading" default>Currently Reading</option>
+					            <option value="Read">Read</option>
+					        </select>
+					        <button type="submit">Update</button>
+			            </form>
+			            <form id="Delete" action="/delete-book" method="post">
+			                <input type="hidden" name="id" value="{{id}}"/>
+							<button type="submit">Delete</button>
+			            </form>
+	            	</div>
+	            </div>
+	        </li>
+			{{/usersBooks}}
+	    </ul>
+	</section>
+</main>
+</body>
+</html>

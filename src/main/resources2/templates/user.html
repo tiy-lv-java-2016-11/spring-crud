@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Detail</title>
+    <link rel="stylesheet" href="../css/reset.css"/>
+    <link rel="stylesheet" href="../css/style.css"/>
+</head>
+<body>
+
+<header>
+    <div id="login">
+	    <div id="welcome">
+	        <h4>Welcome <span>username</span></h4>
+	        <form action="/logout" method="post">
+	            <button type="submit">Logout</button>
+	        </form>
+	    </div>
+       <!--  <p id="redAtt">RedAtt Message</p> -->
+    </div>
+</header>
+<main class="twoColumn">
+	<section class="leftCol" id="allBooks">
+		<div class="controls">
+		    <h1 class="headline">Books on other's bookshelves</h1>
+		    <form class="controls">
+		        <label>Filter by:</label>
+		        <select name="filterStatus">
+		            <option default disabled>Status</option>
+		            <option value="want">Want To Read</option>
+		            <option value="current">Currently Reading</option>
+		            <option value="read">Read</option>
+		        </select>
+		        <label for="sort">Sort By:</label>
+		        <select id="sort" name="sortBy">
+		            <option value="title">Title</option>
+		            <option value="author">Author</option>
+		            <option value="year">Year</option>
+		        </select>
+		        <button type="submit">Submit</button>
+		    </form>
+		</div>
+	    <ul class="bookshelf">
+	        <li class="book">
+	            <div class="cover">
+	                <img src="http://books.google.com/books/content?id=Ds-LBgAAQBAJ&printsec=frontcover&img=1&zoom=5&source=gbs_api">
+	            </div>
+	            <div class="info">
+		            <h2 class="title" ="title">Harry Potter and the Chamber of Secrets</h2>
+		            <h3 class="author">J.K. Rowling <span>2005</span></h3>
+		            <p class="description">"Turning the envelope over, his hand trembling, Harry saw a purple wax seal bearing a coat of arms; a lion, an eagle, a badger and a snake surrounding a large letter 'H'." Harry Potter has never even heard of Hogwarts when the letters start</p>
+		            <p class="userInfo">In <span class="status">Currently Reading</span> list by <span class="user"><a href="#">Username</a></span></p>
+	            </div>
+	        </li>
+	    </ul>
+	</section>
+	<section class="rightCol" id="userBooks">
+		<div class="controls">
+		    <h1 class="headline">Books on your bookshelf</h1>
+		    <form class="controls" action="/filter-sort">
+		        <label>Filter by:</label>
+		        <select name="filterStatus">
+		            <option default disabled>Status</option>
+		            <option value="want">Want To Read</option>
+		            <option value="current">Currently Reading</option>
+		            <option value="read">Read</option>
+		        </select>
+		        <label for="sort">Sort By:</label>
+		        <select id="sort" name="sortBy">
+		            <option value="title">Title</option>
+		            <option value="author">Author</option>
+		            <option value="year">Year</option>
+		        </select>
+		        <button type="submit">Submit</button>
+		    </form>
+		    <p><a href="/add-book">Search</a> books to add to your bookshelf</p>
+		</div>
+	    <ul class="bookshelf">
+	        <li class="book">
+	            <div class="cover">
+	                <img src="http://books.google.com/books/content?id=Ds-LBgAAQBAJ&printsec=frontcover&img=1&zoom=5&source=gbs_api">
+	            </div>
+	            <div class="info">
+		            <h2 class="title" ="title">Harry Potter and the Chamber of Secrets</h2>
+		            <h3 class="author">J.K. Rowling <span>2005</span></h3>
+		            <p class="description">"Turning the envelope over, his hand trembling, Harry saw a purple wax seal bearing a coat of arms; a lion, an eagle, a badger and a snake surrounding a large letter 'H'." Harry Potter has never even heard of Hogwarts when the letters start</p>
+		            <div class="buttons">
+			            <form action="/update-book" method="post">
+					        <select name="status">
+					            <option value="want">Want To Read</option>
+					            <option value="current" default>Currently Reading</option>
+					            <option value="read">Read</option>
+					        </select>
+					        <button type="submit">Update</button>
+			            </form>
+			            <form id="Delete" action="/delete-book?id={{id}}" method="post">
+			                <button type="submit">Delete</button>
+			            </form>
+	            	</div>
+	            </div>
+	        </li>                                                   
+	    </ul>
+	</section>
+</main>
+</body>
+</html>
