@@ -24,6 +24,7 @@ public class Game {
     public Game(){
     }
     public Game(String name, String genre, String platform, User user) {
+        this.id = id;
         this.user = user;
         this.name = name;
         this.genre = genre;

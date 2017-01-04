@@ -11,13 +11,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import javax.servlet.http.HttpSession;
-import javax.websocket.Session;
-import java.util.List;
 
-/**
- * Created by sparatan117 on 1/3/17.
- */
+import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Controller
 public class GamesSpringController {
@@ -31,19 +27,27 @@ public class GamesSpringController {
 
 
     @RequestMapping(path = "/", method = RequestMethod.GET)
-    public String home(HttpSession session, Model model, String genre, String platform){
+    public String home(HttpSession session, Model model){
         String username = (String) session.getAttribute(SESSION_USERNAME);
-        List<Game> games = gameRepository.findAll();
-        if(username != null){
+        User user = userRepository.findFirstByUsername(username);
+
+
+        if(user != null) {
+            model.addAttribute("user", user);
+
+            List<Game> games = gameRepository.findAll();
+            model.addAttribute("games", games);
+
+            List<Game> usergames = gameRepository.findByUser(user);
+            model.addAttribute("usergames", usergames);
         }
-        model.addAttribute("user", session.getAttribute(SESSION_USERNAME));
-        return "Home";
+        return "home";
     }
 
 
-    @RequestMapping(path = "/Login", method = RequestMethod.POST)
+    @RequestMapping(path = "/login", method = RequestMethod.POST)
     public String login(HttpSession session, String username, String password) throws Exception{
-        User user = userRepository.findFirstByName(username);
+        User user = userRepository.findFirstByUsername(username);
         if(user == null){
             user = new User(username, PasswordStorage.createHash(password));
             userRepository.save(user);
@@ -53,6 +57,58 @@ public class GamesSpringController {
         }
         session.setAttribute(SESSION_USERNAME, username);
         return "redirect:/";
+    }
+    @RequestMapping(path = "/add-game", method = RequestMethod.POST)
+    public String addgame(HttpSession session, String name, String genre, String platform){
+        String username = (String)session.getAttribute(SESSION_USERNAME);
+        User user = userRepository.findFirstByUsername(username);
+        if(user != null){
+            Game game = new Game(name, genre, platform, user);
+            gameRepository.save(game);
+        }
+        return "redirect:/";
+    }
 
+
+    @RequestMapping(path = "/logout", method = RequestMethod.POST)
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "redirect:/";
+    }
+
+    @RequestMapping(path = "/edit", method = RequestMethod.GET)
+    public String edit(HttpSession session,int game, Model model){
+        String username = (String)session.getAttribute(SESSION_USERNAME);
+        User user = userRepository.findFirstByUsername(username);
+        Game gameid = gameRepository.findById(game);
+        if(user != null){
+            model.addAttribute("games", gameid);
+            model.addAttribute("user", user);
+        }
+        return "edit";
+    }
+
+    @RequestMapping(path = "/delete", method = RequestMethod.POST)
+    public String datele(HttpSession session, int id){
+        String username = (String)session.getAttribute(SESSION_USERNAME);
+        User user = userRepository.findFirstByUsername(username);
+        if(user != null){
+            gameRepository.delete(id);
+        }
+        return "redirect:/";
+    }
+
+    @RequestMapping(path = "/update", method = RequestMethod.POST)
+    public String update(HttpSession session,int id, String name, String genre, String platform){
+        String username = (String)session.getAttribute(SESSION_USERNAME);
+        User user = userRepository.findFirstByUsername(username);
+        if(user != null){
+            Game game1 = gameRepository.findById(id);
+            game1.setName(name);
+            game1.setGenre(genre);
+            game1.setPlatform(platform);
+            gameRepository.save(game1);
+        }
+        return "redirect:/";
     }
 }
