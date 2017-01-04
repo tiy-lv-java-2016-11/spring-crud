@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>edit</title>
+</head>
+<body>
+{{#user}}{{username}}'s message:
+{{#games}}
+{{name}}, {{genre}}, {{platform}}
+
+to update fill out fields:
+<form action="/update" method="post">
+    <input type="hidden" name="id" value="{{id}}">
+    <input type="text" placeholder="name of game" name="name"/>
+    <input type="text" placeholder="genre" name="genre"/>
+    <input type="text" placeholder="platform" name="platform"/>
+    <button type="submit">update</button>
+</form>
+<form action="/delete" method="post">
+    <input type="hidden" name = "id" value="{{id}}">
+    <button type="submit">delete</button>
+</form>
+{{/games}}
+{{/user}}
+
+</body>
+</html>

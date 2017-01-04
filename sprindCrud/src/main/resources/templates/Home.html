@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+</head>
+<body>
+{{^user}}
+<form action="/login" method="post">
+    <input type="text" placeholder="Username" name="username" required/>
+    <input type="password" placeholder="Password" name="password" required/>
+    <button type="submit">Login</button>
+</form>
+{{/user}}
+
+{{#user}}
+Hello, {{username}}
+<form action="/logout" method="post">
+    <button type="submit">logout</button>
+</form>
+
+<form action="/add-game" method="post">
+    <input type="text" placeholder="name of game" name="name"/>
+    <input type="text" placeholder="genre" name="genre"/>
+    <input type="text" placeholder="platform" name="platform"/>
+    <button type="submit">add game</button>
+</form>
+
+<ol>
+    games form {{username}}:
+    {{#usergames}}
+    <li>
+
+        <a href="/edit?game={{id}}" ><button type="submit">edit</button></a>
+        {{#user}}
+        {{name}}, {{genre}}, {{platform}} - {{username}}
+        {{/user}}
+
+    </li>
+    {{/usergames}}
+</ol>
+{{/user}}
+
+<ol>
+    games form everyone:
+    {{#games}}
+    <li>
+        {{name}}, {{genre}}, {{platform}} - {{user.username}}
+    </li>
+    {{/games}}
+</ol>
+
+</body>
+</html>
