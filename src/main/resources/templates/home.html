@@ -23,20 +23,26 @@
 <section id="allBooks">
 <div class="controls">
     <h1 class="headline">All books in others bookshelves</h1>
-    <form class="controls">
+    <form action="/" method="get">
         <label>Filter by:</label>
-        <select name="filterStatus">
+        <input type="hidden" name="filterAll" value="true"/>
+        <select name="filterBy">
             <option default disabled>Status</option>
-            <option value="want">Want To Read</option>
-            <option value="current">Currently Reading</option>
-            <option value="read">Read</option>
+            <option value="Want To Read">Want To Read</option>
+            <option value="Currently Reading">Currently Reading</option>
+            <option value="Read">Read</option>
         </select>
-        <label for="sort">Sort By:</label>
-        <select id="sort" name="sortBy">
+        <button type="submit">Filter</button>
+    </form>
+    <form action="/" method="get">
+        <label>Sort By:</label>
+        <input type="hidden" name="sortAll" value="true"/>
+        <select name="sortBy">
             <option value="title">Title</option>
             <option value="author">Author</option>
             <option value="year">Year</option>
         </select>
+        <button type="submit">Sort</button>
     </form>
 </div>
     <ul class="bookshelf">

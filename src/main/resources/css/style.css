@@ -75,8 +75,10 @@ section{
 	padding-bottom: 10px;
 }
 .controls p{
-	display: inline-block;
 	font-size: 12px;
+}
+.controls form{
+    display: inline-block;
 }
 .headline {
 	font-size: 24px;

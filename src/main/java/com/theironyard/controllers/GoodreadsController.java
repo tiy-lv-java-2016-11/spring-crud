@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
@@ -33,13 +34,32 @@ public class GoodreadsController {
     BookRepository bookRepository;
 
     @RequestMapping(path = "/", method = RequestMethod.GET)
-    public String home(Model model, HttpSession session){
+    public String home(Model model, HttpSession session, @RequestParam(required = false) String filterUser, @RequestParam(required = false) String filterBy, @RequestParam(required = false) String sortUser, @RequestParam(required = false) String sortBy, @RequestParam(required = false) String filterAll, @RequestParam(required = false) String sortAll){
         Integer currentUserId = (Integer) session.getAttribute(SESSION_USER_ID);
         String returnVal;
+        List<Book> usersBooks = null;
+        List<Book> allBooks = null;
 
         if (currentUserId != null){
             User currentUser = userRepository.findOne(currentUserId);
-            List<Book> usersBooks = bookRepository.findByUser(currentUser);
+            if (Boolean.valueOf(filterUser)){
+                usersBooks = bookRepository.findByUserAndStatus(currentUser, filterBy);
+            }
+//            else if (Boolean.valueOf(sortUser)){
+//                if (sortBy.equals("title")){
+//                    usersBooks = bookRepository.findByUserByOrderByTitleAsc(currentUser);
+//                }
+//                else if (sortBy.equals("author")){
+//                    usersBooks = bookRepository.findByUserByOrderByAuthorAsc(currentUser);
+//                }
+//                else if (sortBy.equals("year")){
+//                    usersBooks = bookRepository.findByUserByOrderByYearAsc(currentUser);
+//                }
+//            }
+            else {
+                usersBooks = bookRepository.findByUser(currentUser);
+            }
+
             model.addAttribute("currentUser", currentUser);
             model.addAttribute("usersBooks", usersBooks);
             returnVal = "/user";
@@ -47,7 +67,24 @@ public class GoodreadsController {
         else {
             returnVal = "/home";
         }
-        List<Book> allBooks = bookRepository.findAll();
+
+        if (Boolean.valueOf(filterAll)){
+            allBooks = bookRepository.findByStatus(filterBy);
+        }
+//        else if (Boolean.valueOf(sortAll)){
+//            if (sortBy.equals("title")){
+//                allBooks = bookRepository.findAllByOrderByTitleAsc();
+//            }
+//            else if (sortBy.equals("author")){
+//                allBooks = bookRepository.findAllByOrderByAuthorAsc();
+//            }
+//            else if (sortBy.equals("year")){
+//                allBooks = bookRepository.findAllByOrderByYearAsc();
+//            }
+//        }
+        else {
+            allBooks = bookRepository.findAll();
+        }
         model.addAttribute("allBooks", allBooks);
         return returnVal;
     }
@@ -106,62 +143,4 @@ public class GoodreadsController {
         return "redirect:/";
     }
 
-    @RequestMapping(path = "/filter", method = RequestMethod.GET)
-    public String filterBooks(Model model, HttpSession session, String listType, String status){
-        Integer currentUserId = (Integer) session.getAttribute(SESSION_USER_ID);
-
-        if (currentUserId != null){
-            User currentUser = userRepository.findOne(currentUserId);
-            model.addAttribute("currentUser", currentUser);
-            if (listType.equals("allBooks")){
-                List<Book> allBooks = bookRepository.findByStatus(status);
-                model.addAttribute("allBooks", allBooks);
-            }
-            else if (listType.equals("usersBooks")){
-                List<Book> usersBooks = bookRepository.findByUserAndStatus(currentUser, status);
-                model.addAttribute("usersBooks", usersBooks);
-            }
-            return "/user";
-        }
-
-        return "/";
-    }
-
-    @RequestMapping(path = "/sort", method = RequestMethod.GET)
-    public String sortBooks(Model model, HttpSession session, String listType, String sortBy){
-        Integer currentUserId = (Integer) session.getAttribute(SESSION_USER_ID);
-
-        if (currentUserId != null){
-            User currentUser = userRepository.findOne(currentUserId);
-            model.addAttribute("currentUser", currentUser);
-            if (listType.equals("allBooks")){
-                List<Book> allBooks = null;
-                if (sortBy.equals("title")){
-                    allBooks = bookRepository.findAllByOrderByTitleAsc();
-                }
-                else if (sortBy.equals("author")){
-                    allBooks = bookRepository.findAllByOrderByAuthorAsc();
-                }
-                else if (sortBy.equals("year")){
-                    allBooks = bookRepository.findAllByOrderByYearAsc();
-                }
-                model.addAttribute("allBooks", allBooks);
-            }
-            else if (listType.equals("usersBooks")){
-                List<Book> usersBooks = null;
-                if (sortBy.equals("title")){
-                    usersBooks = bookRepository.findByUserOrderByTitleAsc(currentUser);
-                }
-                else if (sortBy.equals("author")){
-                    usersBooks = bookRepository.findByUserOrderByAuthorAsc(currentUser);
-                }
-                else if (sortBy.equals("year")){
-                    usersBooks = bookRepository.findByUserOrderByYearAsc(currentUser);
-                }
-                model.addAttribute("usersBooks", usersBooks);
-            }
-            return "/user";
-        }
-        return "/";
-    }
 }

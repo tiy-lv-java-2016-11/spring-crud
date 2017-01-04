@@ -23,10 +23,10 @@
 	<section class="leftCol" id="allBooks">
 		<div class="controls">
 		    <h1 class="headline">Books on other's bookshelves</h1>
-            <form class="controls" action="/filter" method="get">
+            <form action="/" method="get">
                 <label>Filter by:</label>
-                <input type="hidden" name="listType" value="allBooks"/>
-                <select name="filterStatus">
+                <input type="hidden" name="filterAll" value="true"/>
+                <select name="filterBy">
                     <option default disabled>Status</option>
                     <option value="Want To Read">Want To Read</option>
                     <option value="Currently Reading">Currently Reading</option>
@@ -34,9 +34,9 @@
                 </select>
                 <button type="submit">Filter</button>
             </form>
-            <form action="/sort" method="get">
+            <form action="/" method="get">
                 <label>Sort By:</label>
-                <input type="hidden" name="listType" value="allBooks"/>
+                <input type="hidden" name="sortAll" value="true"/>
                 <select name="sortBy">
                     <option value="title">Title</option>
                     <option value="author">Author</option>
@@ -64,10 +64,10 @@
 	<section class="rightCol" id="userBooks">
 		<div class="controls">
 		    <h1 class="headline">Books on your bookshelf</h1>
-		    <form class="controls" action="/filter" method="get">
+		    <form action="/" method="get">
 		        <label>Filter by:</label>
-                <input type="hidden" name="listType" value="usersBooks"/>
-		        <select name="filterStatus">
+                <input type="hidden" name="filterUser" value="true"/>
+		        <select name="filterBy">
 		            <option default disabled>Status</option>
 		            <option value="Want To Read">Want To Read</option>
 		            <option value="Currently Reading">Currently Reading</option>
@@ -75,9 +75,9 @@
 		        </select>
                 <button type="submit">Filter</button>
             </form>
-            <form action="/sort" method="get">
+            <form action="/" method="get">
 		        <label>Sort By:</label>
-                <input type="hidden" name="listType" value="usersBooks"/>
+				<input type="hidden" name="sortUser" value="true"/>
 		        <select name="sortBy">
 		            <option value="title">Title</option>
 		            <option value="author">Author</option>
