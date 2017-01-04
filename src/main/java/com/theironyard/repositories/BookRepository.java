@@ -11,13 +11,13 @@ import java.util.List;
  */
 public interface BookRepository extends JpaRepository<Book, Integer>{
     List<Book> findByStatus(String status);
-//    List<Book> findAllByOrderByTitleAsc();
-//    List<Book> findAllByOrderByAuthorAsc();
-//    List<Book> findAllByOrderByYearAsc();
+    List<Book> findAllByOrderByTitleAsc();
+    List<Book> findAllByOrderByAuthorAsc();
+    List<Book> findAllByOrderByYearAsc();
 
     List<Book> findByUser(User user);
     List<Book> findByUserAndStatus(User user, String status);
-    List<Book> findByUserByOrderByTitleAsc(User user);
-    List<Book> findByUserByOrderByAuthorAsc(User user);
-    List<Book> findByUserByOrderByYearAsc(User user);
+    List<Book> findByUserOrderByTitleAsc(User user);
+    List<Book> findByUserOrderByAuthorAsc(User user);
+    List<Book> findByUserOrderByYearAsc(User user);
 }

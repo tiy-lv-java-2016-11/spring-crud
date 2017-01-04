@@ -32,6 +32,7 @@ function searchGBapi() {
         event.preventDefault();
         var inputs = $(this).serializeArray();
         var searchTerm = inputs[0].value;
+        searchTerm.replace(" ", "+");
         var searchType = inputs[1].value;
         console.log(searchTerm);
         console.log(searchType);
@@ -52,6 +53,8 @@ function searchGBapi() {
                 year = result.volumeInfo.publishedDate.slice(0,4);
                 if(result.searchInfo){
                     description = result.searchInfo.textSnippet;
+                    description = description.slice(0, 250);
+                    description = description.replace("\s(\w+)$", "...");
                 }
                 var book = '<li class="book"> <div class="cover"> <img src="'+coverUrl+'"> </div> ' +
                     '<div class="info"> ' +
@@ -65,10 +68,10 @@ function searchGBapi() {
                     '<input type="hidden" name="cover" value="'+coverUrl+'"/> ' +
                     '<input type="hidden" name="year" value="'+year+'"/> ' +
                     '<select name="status"> ' +
-                    '<option default disabled>Select Status</option> ' +
-                    '<option value="want">Want To Read</option> ' +
-                    '<option value="current">Currently Reading</option> ' +
-                    '<option value="read">Read</option> ' +
+                    '<option selected disabled>Select Status</option> ' +
+                    '<option value="Want To Read">Want To Read</option> ' +
+                    '<option value="Currently Reading">Currently Reading</option> ' +
+                    '<option value="Read">Read</option> ' +
                     '</select> ' +
                     '<button type="submit">Add</button> ' +
                     '</form> </div> </li>';

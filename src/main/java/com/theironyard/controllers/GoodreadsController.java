@@ -45,17 +45,17 @@ public class GoodreadsController {
             if (Boolean.valueOf(filterUser)){
                 usersBooks = bookRepository.findByUserAndStatus(currentUser, filterBy);
             }
-//            else if (Boolean.valueOf(sortUser)){
-//                if (sortBy.equals("title")){
-//                    usersBooks = bookRepository.findByUserByOrderByTitleAsc(currentUser);
-//                }
-//                else if (sortBy.equals("author")){
-//                    usersBooks = bookRepository.findByUserByOrderByAuthorAsc(currentUser);
-//                }
-//                else if (sortBy.equals("year")){
-//                    usersBooks = bookRepository.findByUserByOrderByYearAsc(currentUser);
-//                }
-//            }
+            else if (Boolean.valueOf(sortUser)){
+                if (sortBy.equals("title")){
+                    usersBooks = bookRepository.findByUserOrderByTitleAsc(currentUser);
+                }
+                else if (sortBy.equals("author")){
+                    usersBooks = bookRepository.findByUserOrderByAuthorAsc(currentUser);
+                }
+                else if (sortBy.equals("year")){
+                    usersBooks = bookRepository.findByUserOrderByYearAsc(currentUser);
+                }
+            }
             else {
                 usersBooks = bookRepository.findByUser(currentUser);
             }
@@ -71,17 +71,17 @@ public class GoodreadsController {
         if (Boolean.valueOf(filterAll)){
             allBooks = bookRepository.findByStatus(filterBy);
         }
-//        else if (Boolean.valueOf(sortAll)){
-//            if (sortBy.equals("title")){
-//                allBooks = bookRepository.findAllByOrderByTitleAsc();
-//            }
-//            else if (sortBy.equals("author")){
-//                allBooks = bookRepository.findAllByOrderByAuthorAsc();
-//            }
-//            else if (sortBy.equals("year")){
-//                allBooks = bookRepository.findAllByOrderByYearAsc();
-//            }
-//        }
+        else if (Boolean.valueOf(sortAll)){
+            if (sortBy.equals("title")){
+                allBooks = bookRepository.findAllByOrderByTitleAsc();
+            }
+            else if (sortBy.equals("author")){
+                allBooks = bookRepository.findAllByOrderByAuthorAsc();
+            }
+            else if (sortBy.equals("year")){
+                allBooks = bookRepository.findAllByOrderByYearAsc();
+            }
+        }
         else {
             allBooks = bookRepository.findAll();
         }
