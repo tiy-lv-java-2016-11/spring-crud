@@ -1,12 +1,12 @@
 package com.theironyard.controllers;
 
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import com.theironyard.models.Book;
 import com.theironyard.models.User;
 import com.theironyard.repositories.BookRepository;
 import com.theironyard.repositories.UserRepository;
-import com.theironyard.utilities.PasswordStorage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,32 +34,39 @@ public class GoodreadsController {
     BookRepository bookRepository;
 
     @RequestMapping(path = "/", method = RequestMethod.GET)
-    public String home(Model model, HttpSession session, @RequestParam(required = false) String filterUser, @RequestParam(required = false) String filterBy, @RequestParam(required = false) String sortUser, @RequestParam(required = false) String sortBy, @RequestParam(required = false) String filterAll, @RequestParam(required = false) String sortAll){
+    public String home(Model model, HttpSession session, @RequestParam(defaultValue = "0") int allPage, @RequestParam(defaultValue = "0") int userPage, String filterUser, String filterBy, String sortUser, String sortBy, String filterAll, String sortAll){
         Integer currentUserId = (Integer) session.getAttribute(SESSION_USER_ID);
         String returnVal;
-        List<Book> usersBooks = null;
-        List<Book> allBooks = null;
+        Page<Book> usersBooks = null;
+        Page<Book> allBooks = null;
 
         if (currentUserId != null){
             User currentUser = userRepository.findOne(currentUserId);
             if (Boolean.valueOf(filterUser)){
-                usersBooks = bookRepository.findByUserAndStatus(currentUser, filterBy);
+                usersBooks = bookRepository.findByUserAndStatus(currentUser, filterBy, new PageRequest(userPage, 5));
             }
             else if (Boolean.valueOf(sortUser)){
                 if (sortBy.equals("title")){
-                    usersBooks = bookRepository.findByUserOrderByTitleAsc(currentUser);
+                    usersBooks = bookRepository.findByUserOrderByTitleAsc(currentUser, new PageRequest(userPage, 5));
                 }
                 else if (sortBy.equals("author")){
-                    usersBooks = bookRepository.findByUserOrderByAuthorAsc(currentUser);
+                    usersBooks = bookRepository.findByUserOrderByAuthorAsc(currentUser, new PageRequest(userPage, 5));
                 }
                 else if (sortBy.equals("year")){
-                    usersBooks = bookRepository.findByUserOrderByYearAsc(currentUser);
+                    usersBooks = bookRepository.findByUserOrderByYearAsc(currentUser, new PageRequest(userPage, 5));
                 }
             }
             else {
-                usersBooks = bookRepository.findByUser(currentUser);
+                usersBooks = bookRepository.findByUser(currentUser, new PageRequest(userPage, 5));
             }
-
+            if (usersBooks.hasPrevious()){
+                model.addAttribute("usersPrev", true);
+                model.addAttribute("usersPrevPageNum", userPage -1);
+            }
+            if (usersBooks.hasNext()){
+                model.addAttribute("usersNext", true);
+                model.addAttribute("usersNextPageNum", userPage + 1);
+            }
             model.addAttribute("currentUser", currentUser);
             model.addAttribute("usersBooks", usersBooks);
             returnVal = "/user";
@@ -69,34 +76,51 @@ public class GoodreadsController {
         }
 
         if (Boolean.valueOf(filterAll)){
-            allBooks = bookRepository.findByStatus(filterBy);
+            allBooks = bookRepository.findByStatus(filterBy, new PageRequest(allPage, 5));
         }
         else if (Boolean.valueOf(sortAll)){
             if (sortBy.equals("title")){
-                allBooks = bookRepository.findAllByOrderByTitleAsc();
+                allBooks = bookRepository.findAllByOrderByTitleAsc(new PageRequest(allPage, 5));
             }
             else if (sortBy.equals("author")){
-                allBooks = bookRepository.findAllByOrderByAuthorAsc();
+                allBooks = bookRepository.findAllByOrderByAuthorAsc(new PageRequest(allPage, 5));
             }
             else if (sortBy.equals("year")){
-                allBooks = bookRepository.findAllByOrderByYearAsc();
+                allBooks = bookRepository.findAllByOrderByYearAsc(new PageRequest(allPage, 5));
             }
         }
         else {
-            allBooks = bookRepository.findAll();
+            allBooks = bookRepository.findAll(new PageRequest(allPage, 5));
+        }
+        if (allBooks.hasPrevious()){
+            model.addAttribute("allPrev", true);
+            model.addAttribute("allPrevPageNum", allPage -1);
+        }
+        if (allBooks.hasNext()){
+            model.addAttribute("allNext", true);
+            model.addAttribute("allNextPageNum", allPage + 1);
         }
         model.addAttribute("allBooks", allBooks);
         return returnVal;
     }
 
     @RequestMapping(path = "/add-book", method = RequestMethod.GET)
-    public String loadAddBook(Model model, HttpSession session){
+    public String loadAddBook(Model model, HttpSession session, @RequestParam(defaultValue = "0") int userPage){
         Integer currentUserId = (Integer) session.getAttribute(SESSION_USER_ID);
         String returnVal;
 
         if (currentUserId != null){
             User currentUser = userRepository.findOne(currentUserId);
-            List<Book> usersBooks = bookRepository.findByUser(currentUser);
+            Page<Book> usersBooks = bookRepository.findByUser(currentUser, new PageRequest(userPage, 5));
+
+            if (usersBooks.hasPrevious()){
+                model.addAttribute("usersPrev", true);
+                model.addAttribute("usersPrevPageNum", userPage -1);
+            }
+            if (usersBooks.hasNext()){
+                model.addAttribute("usersNext", true);
+                model.addAttribute("usersNextPageNum", userPage + 1);
+            }
             model.addAttribute("currentUser", currentUser);
             model.addAttribute("usersBooks", usersBooks);
 

@@ -27,7 +27,8 @@
         <label>Filter by:</label>
         <input type="hidden" name="filterAll" value="true"/>
         <select name="filterBy">
-            <option default disabled>Status</option>
+            <option selected disabled>Select Status</option>
+            <option value="All">All</option>
             <option value="Want To Read">Want To Read</option>
             <option value="Currently Reading">Currently Reading</option>
             <option value="Read">Read</option>
@@ -38,6 +39,8 @@
         <label>Sort By:</label>
         <input type="hidden" name="sortAll" value="true"/>
         <select name="sortBy">
+            <option selected disabled>Select Status</option>
+            <option value="none">None</option>
             <option value="title">Title</option>
             <option value="author">Author</option>
             <option value="year">Year</option>
@@ -60,6 +63,15 @@
         </li>
         {{/allBooks}}
     </ul>
+    <div class="pages">
+        {{#allPrev}}
+        <a href="/?allPage={{allPrevPageNum}}"><button class="prevBtn"><< Previous</button></a>
+        {{/allPrev}}
+
+        {{#allNext}}
+        <a href="/?allPage={{allNextPageNum}}"><button class="nextBtn">Next >></button></a>
+        {{/allNext}}
+    </div>
 </section>
 </main>
 </body>

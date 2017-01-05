@@ -101,15 +101,19 @@ section{
 	float: left;
     max-width:20%;
 }
-.cover img { 
-	height: 150px;
+.cover img {
+    max-width:100px;
+    max-height:150px;
+
 }
 .info{
-	float: right;
-	width: 80%;
+    float: right;
+    width:80%;
+
 }
 .title {
-	font-size: 20px;
+	font-size: 22px;
+    font-weight:bold;
 	padding: 3px 0;
 }
 .author {

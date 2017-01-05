@@ -59,7 +59,7 @@ function searchGBapi() {
                 var book = '<li class="book"> <div class="cover"> <img src="'+coverUrl+'"> </div> ' +
                     '<div class="info"> ' +
                     '<h2 class="title">'+title+'</h2> ' +
-                    '<h3 class="author">'+author+' <span>'+year+'</span></h3> ' +
+                    '<h3 class="author">'+author+'&nbsp;&nbsp;<span>'+year+'</span></h3> ' +
                     '<p class="description">'+description+'</p> ' +
                     '<form action="/add-book" method="post"> ' +
                     '<input type="hidden" name="title" value="'+title+'"/> ' +

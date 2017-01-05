@@ -45,7 +45,7 @@
                 <!--</div>-->
                 <!--<div class="info">-->
                     <!--<h2 class="title">Harry Potter and the Chamber of Secrets</h2>-->
-                    <!--<h3 class="author">J.K. Rowling <span>2005</span></h3>-->
+                    <!--<h3 class="author">J.K. Rowling<span>2005</span></h3>-->
                     <!--<p class="description">"Turning the envelope over, his hand trembling, Harry saw a purple wax seal bearing a coat of arms; a lion, an eagle, a badger and a snake surrounding a large letter 'H'." Harry Potter has never even heard of Hogwarts when the letters start</p>-->
                     <!--<form action="/add-book" method="post">-->
                         <!--<input type="hidden" name="title" value=""/>-->
@@ -63,6 +63,15 @@
                 <!--</div>-->
             <!--</li>-->
         </ul>
+        <div class="pages">
+            {{#addPrev}}
+            <a href="/add-book?addPage={{searchPrevPageNum}}"><button class="prevBtn"><< Previous</button></a>
+            {{/addPrev}}
+
+            {{#addNext}}
+            <a href="/add-book?addPage={{searchNextPageNum}}"><button class="nextBtn">Next >></button></a>
+            {{/addNext}}
+        </div>
     </section>
     <section class="rightCol" id="userBooks">
         <div class="controls">
@@ -113,6 +122,15 @@
             </li>
             {{/usersBooks}}
         </ul>
+        <div class="pages">
+            {{#usersPrev}}
+            <a href="/?userPage={{usersPrevPageNum}}"><button class="prevBtn"><< Previous</button></a>
+            {{/usersPrev}}
+
+            {{#usersNext}}
+            <a href="/?userPage={{usersNextPageNum}}"><button class="nextBtn">Next >></button></a>
+            {{/usersNext}}
+        </div>
     </section>
 </main>
 <script

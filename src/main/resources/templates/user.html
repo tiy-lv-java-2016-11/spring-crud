@@ -60,6 +60,15 @@
 			</li>
 			{{/allBooks}}
 	    </ul>
+        <div class="pages">
+            {{#allPrev}}
+            <a href="/?allPage={{allPrevPageNum}}"><button class="prevBtn"><< Previous</button></a>
+            {{/allPrev}}
+
+            {{#allNext}}
+            <a href="/?allPage={{allNextPageNum}}"><button class="nextBtn">Next >></button></a>
+            {{/allNext}}
+        </div>
 	</section>
 	<section class="rightCol" id="userBooks">
 		<div class="controls">
@@ -116,6 +125,15 @@
 	        </li>
 			{{/usersBooks}}
 	    </ul>
+        <div class="pages">
+            {{#usersPrev}}
+            <a href="/?userPage={{usersPrevPageNum}}"><button class="prevBtn"><< Previous</button></a>
+            {{/usersPrev}}
+
+            {{#usersNext}}
+            <a href="/?userPage={{usersNextPageNum}}"><button class="nextBtn">Next >></button></a>
+            {{/usersNext}}
+        </div>
 	</section>
 </main>
 </body>
