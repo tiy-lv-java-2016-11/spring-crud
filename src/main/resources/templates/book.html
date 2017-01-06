@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Book Detail</title>
+</head>
+<body>
+
+<header>
+    {{#currentUser}}
+    <h4>Welcome, {{username}}</h4>
+    <form action="/logout" method="post">
+        <button type="submit">Logout</button>
+    </form>
+    {{/currentUser}}
+</header>
+
+<main>
+    {{#book}}
+    <p>{{title}} written by {{author}} published in {{year}}</p>
+    <p>Added to {{status}} by {{user.username}} on </p>
+    {{/book}}
+</main>
+
+</body>
+</html>

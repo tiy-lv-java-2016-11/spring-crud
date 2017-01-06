@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Book</title>
+    <link rel="stylesheet" href="../css/reset.css"/>
+    <link rel="stylesheet" href="../css/style.css"/>
+</head>
+<body>
+
+<header>
+    <div id="login">
+        <div id="welcome">
+            <h4>Welcome <span>username</span></h4>
+            <form action="/logout" method="post">
+                <button type="submit">Logout</button>
+            </form>
+        </div>
+        {{#message}}<p id="redAtt">{{.}}</p>{{/message}}
+    </div>
+</header>
+
+
+
+<main class="twoColumn">
+    <section class="leftCol" id="allBooks">
+        <div class="controls">
+            <h1 class="headline">Search books to add to your bookshelf</h1>
+            <form id="searchForm" class="controls">
+                <input id="searchTerm" type="text" placeholder="Search" size="50" name="searchTerm"/>
+                <select id="searchType" name="searchType">
+                    <option selected value="">Keyword</option>
+                    <option value="intitle">Title</option>
+                    <option value="inauthor">Author</option>
+                    <option value="subject">Subject</option>
+                    <option value="isbn">ISBN</option>
+                </select>
+                <button id="searchBtn" type="submit">Search</button>
+            </form>
+        </div>
+        <ul class="bookshelf" id="searchList">
+            <!--<li class="book">-->
+                <!--<div class="cover">-->
+                    <!--<img src="http://books.google.com/books/content?id=Ds-LBgAAQBAJ&printsec=frontcover&img=1&zoom=5&source=gbs_api">-->
+                <!--</div>-->
+                <!--<div class="info">-->
+                    <!--<h2 class="title">Harry Potter and the Chamber of Secrets</h2>-->
+                    <!--<h3 class="author">J.K. Rowling<span>2005</span></h3>-->
+                    <!--<p class="description">"Turning the envelope over, his hand trembling, Harry saw a purple wax seal bearing a coat of arms; a lion, an eagle, a badger and a snake surrounding a large letter 'H'." Harry Potter has never even heard of Hogwarts when the letters start</p>-->
+                    <!--<form action="/add-book" method="post">-->
+                        <!--<input type="hidden" name="title" value=""/>-->
+                        <!--<input type="hidden" name="author" value=""/>-->
+                        <!--<input type="hidden" name="description" value=""/>-->
+                        <!--<input type="hidden" name="cover" value=""/>-->
+                        <!--<select name="status">-->
+                            <!--<option default disabled>Select Status</option>-->
+                            <!--<option value="want">Want To Read</option>-->
+                            <!--<option value="current">Currently Reading</option>-->
+                            <!--<option value="read">Read</option>-->
+                        <!--</select>-->
+                        <!--<button type="submit">Add</button>-->
+                    <!--</form>-->
+                <!--</div>-->
+            <!--</li>-->
+        </ul>
+        <div class="pages">
+            {{#addPrev}}
+            <a href="/add-book?addPage={{searchPrevPageNum}}"><button class="prevBtn"><< Previous</button></a>
+            {{/addPrev}}
+
+            {{#addNext}}
+            <a href="/add-book?addPage={{searchNextPageNum}}"><button class="nextBtn">Next >></button></a>
+            {{/addNext}}
+        </div>
+    </section>
+    <section class="rightCol" id="userBooks">
+        <div class="controls">
+            <h1 class="headline">Books on your bookshelf</h1>
+            <form class="controls">
+                <label>Filter by:</label>
+                <select name="filterStatus">
+                    <option default disabled>Status</option>
+                    <option value="Want To Read">Want To Read</option>
+                    <option value="Currently Reading">Currently Reading</option>
+                    <option value="Read">Read</option>
+                </select>
+                <label>Sort By:</label>
+                <select name="sortBy">
+                    <option value="title">Title</option>
+                    <option value="author">Author</option>
+                    <option value="year">Year</option>
+                </select>
+                <button type="submit">Submit</button>
+            </form>
+            <p><a href="/">Home</a></p>
+        </div>
+        <ul class="bookshelf">
+            {{#usersBooks}}
+            <li class="book">
+                <div class="cover">
+                    <img src="{{#coverUrl}}{{.}}{{/coverUrl}}">
+                </div>
+                <div class="info">
+                    <h4>{{status}}</h4>
+                    <h2 class="title">{{title}}</h2>
+                    <h3 class="author">{{author}}<span>{{year}}</span></h3>
+                    <p class="description">{{#description}}{{.}}{{/description}}</p>
+                    <div class="buttons">
+                        <form action="/update-book?id={{id}}" method="post">
+                            <select name="status">
+                                <option value="Want To Read">Want To Read</option>
+                                <option value="Currently Reading" default>Currently Reading</option>
+                                <option value="Read">Read</option>
+                            </select>
+                            <button type="submit">Update</button>
+                        </form>
+                        <form id="Delete" action="/delete-book?id={{id}}" method="post">
+                            <button type="submit">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            </li>
+            {{/usersBooks}}
+        </ul>
+        <div class="pages">
+            {{#usersPrev}}
+            <a href="/?userPage={{usersPrevPageNum}}"><button class="prevBtn"><< Previous</button></a>
+            {{/usersPrev}}
+
+            {{#usersNext}}
+            <a href="/?userPage={{usersNextPageNum}}"><button class="nextBtn">Next >></button></a>
+            {{/usersNext}}
+        </div>
+    </section>
+</main>
+<script
+    src="https://code.jquery.com/jquery-3.1.1.min.js"
+    integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+    crossorigin="anonymous">
+</script>
+<script src="../js/main.js"></script>
+</body>
+</html>

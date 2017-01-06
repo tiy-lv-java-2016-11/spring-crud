@@ -1,0 +1,172 @@
+html {box-sizing: border-box;}
+*, *::before, *::after {box-sizing: inherit;}
+html, body {
+  height: 100%;
+  margin: 0;
+}
+body {
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	background-color: #f5f8fa;
+}
+
+header {
+	padding: 10px 5px;
+	height: 125px;
+	width: 100%;
+	position: fixed;
+	right: 0;
+	background-color: #f5f8fa;
+}
+
+#searchForm {
+	float: left;
+	margin-left: 30px;
+}
+
+#login {
+	right: 8000px;
+	float: right;
+	padding-right: 20px;
+}
+#login p {
+	padding-bottom: 5px;
+}
+
+#redAtt {
+	color: red;
+	font-size: 12px;
+	margin-top: 5px;
+}
+
+
+#welcome h4 {
+	display: inline-block;
+	font-size: 14px;
+	padding-bottom: 5px;
+}
+#welcome h4 span{
+	font-weight: bold;
+	font-size: 16px;
+}
+
+#welcome form {
+	display: inline-block;
+	padding-right: 20px;
+}
+
+main {
+	padding-top: 30px;
+}
+.bookshelf {
+	padding-top: 100px;
+}
+li {
+	display: block;
+	list-style: none;
+	width: 100%;
+	clear: both;
+}
+section{
+	z-index: -5;
+}
+.controls{
+	position: fixed;
+	margin: 20px 0;
+	padding-bottom: 10px;
+}
+.controls p{
+	font-size: 12px;
+}
+.controls form{
+    display: inline-block;
+}
+.headline {
+	font-size: 24px;
+	font-weight: bold;
+}
+
+.center {
+    width: 600px;
+    margin: 0 auto;
+}
+
+.book {
+	background-color: #fff;
+	border: 1px solid #e1e8ed;
+	height: 170px;
+	padding: 10px;
+}
+
+.cover {
+	float: left;
+    max-width:20%;
+}
+.cover img {
+    max-width:100px;
+    max-height:150px;
+
+}
+.info{
+    float: right;
+    width:80%;
+
+}
+.title {
+	font-size: 22px;
+    font-weight:bold;
+	padding: 3px 0;
+}
+.author {
+	padding: 3px 0;
+	font-size: 14px;
+	font-weight: bold;
+}
+.author > span {
+	font-weight: normal;
+	font-size: 12px;
+}
+.description {
+	padding: 5px 0;
+	font-size: 14px;
+	line-height: 16px;
+}
+.userInfo {
+	padding-top: 5px;
+}
+.userInfo span {
+	font-weight: bold;
+}
+
+.twoColumn {
+	width: 1210px;
+	margin: 0 auto;
+  height: 100%;
+}
+.leftCol{
+	float: left;
+	width: 600px;
+	padding-right: 5px;
+	overflow: auto;
+  height: 100%;
+}
+.rightCol {
+	float: right;
+	width: 600px;
+	padding-left: 5px;
+	overflow: auto;
+  height: 100%;
+}
+
+.buttons form {
+	display: inline-block;
+}
+
+
+
+
+
+
+
+
+
+
