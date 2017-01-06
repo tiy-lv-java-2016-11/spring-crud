@@ -12,6 +12,8 @@ import java.util.List;
  * Created by melmo on 12/29/16.
  */
 public interface BookRepository extends JpaRepository<Book, Integer>{
+    Book findByTitle(String title);
+
     Page<Book> findByStatus(String status, Pageable pageable);
     Page<Book> findAllByOrderByTitleAsc(Pageable pageable);
     Page<Book> findAllByOrderByAuthorAsc(Pageable pageable);
